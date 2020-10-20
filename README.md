@@ -25,3 +25,9 @@ To see the app in action, click [here](https://ikramhasan.github.io/Earthquake-V
 ## Thanks
 
 - [Coding Train](https://www.youtube.com/watch?v=HyAeZKWWuxA) for the [tutorial](https://www.youtube.com/watch?v=ZiYdOwOrGyc)
+
+
+
+[1]: http://www.twitter.com/ikramhasandev
+[2]: http://www.facebook.com/ihni7/
+[3]: https://github.com/ikramhasan/

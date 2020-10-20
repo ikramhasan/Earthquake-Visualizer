@@ -1,10 +1,22 @@
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:math';
 
 import 'package:earthquake_visualizer/data/map_data.dart';
 import 'package:flutter/material.dart';
 
-class Visualizer extends StatelessWidget {
+class Visualizer extends StatefulWidget {
+  @override
+  _VisualizerState createState() => _VisualizerState();
+}
+
+class _VisualizerState extends State<Visualizer> {
+  static getData() async {
+    var response = await http.get(
+        'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.csv');
+    return response.body;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,22 +26,32 @@ class Visualizer extends StatelessWidget {
           width: 2,
         ),
       ),
-      child: CustomPaint(
-        painter: Painter(),
-        size: Size(MapData.width, MapData.height),
+      child: FutureBuilder(
+        future: getData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return CustomPaint(
+            painter: Painter(data: snapshot.data),
+            size: Size(MapData.width, MapData.height),
+          );
+        },
       ),
     );
   }
 }
 
 class Painter extends CustomPainter {
+  final data;
+
+  Painter({this.data});
+
   static var cLat = 0;
   static var cLon = 0;
-
-  // Bangladesh = 23.6850° N, 90.3563° E
-  static var lat = 23.6850;
-  static var lon = 90.3563;
-
+  
   static num degreesToRads(num deg) {
     return (deg * pi) / 180.0;
   }
@@ -52,28 +74,23 @@ class Painter extends CustomPainter {
   static var centerX = mercX(cLon);
   static var centerY = mercX(cLat);
 
-  var x = mercX(lon) - centerX;
-  var y = mercY(lat) - centerY;
-
-  static var earthquake;
-
-  static getData() async {
-    var response = await http.get(
-        'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.csv');
-
-    earthquake = response.body;
-  }
-
   @override
   void paint(Canvas canvas, Size size) {
-    getData();
-    for (int i = 0; i < earthquake.length; i++) {
-      var data = earthquake[i].split(',');
-    }
     canvas.translate(size.width / 2, size.height / 2);
-    var center = Offset(x, y);
-    var paint = Paint()..color = Colors.red;
-    canvas.drawCircle(center, 4, paint);
+    LineSplitter ls = LineSplitter();
+    List<String> lines = ls.convert(data);
+    for (var i = 1; i < lines.length; i++) {
+      var earthquakes = lines[i].split(',');
+      var lat = double.parse(earthquakes[1]);
+      var lon = double.parse(earthquakes[2]);
+
+      var x = mercX(lon) - centerX;
+      var y = mercY(lat) - centerY;
+
+      var center = Offset(x, y);
+      var paint = Paint()..color = Colors.red;
+      canvas.drawCircle(center, 4, paint);
+    }
   }
 
   @override

@@ -13,7 +13,7 @@ class Visualizer extends StatefulWidget {
 class _VisualizerState extends State<Visualizer> {
   static getData() async {
     var response = await http.get(
-        'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.csv');
+        'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv');
     return response.body;
   }
 
@@ -51,7 +51,7 @@ class Painter extends CustomPainter {
 
   static var cLat = 0;
   static var cLon = 0;
-  
+
   static num degreesToRads(num deg) {
     return (deg * pi) / 180.0;
   }
@@ -81,15 +81,23 @@ class Painter extends CustomPainter {
     List<String> lines = ls.convert(data);
     for (var i = 1; i < lines.length; i++) {
       var earthquakes = lines[i].split(',');
+
       var lat = double.parse(earthquakes[1]);
       var lon = double.parse(earthquakes[2]);
+      var mag = double.parse(earthquakes[4]);
+      mag = pow(10, mag);
+      mag = sqrt(mag);
+      var magmax = sqrt(pow(10, 10));
 
       var x = mercX(lon) - centerX;
       var y = mercY(lat) - centerY;
+      var d = ((mag - 0) / (magmax - 0)) * (180 - 0) + 0;
+      var r = d.abs() / 2;
+      //print(r);
 
       var center = Offset(x, y);
       var paint = Paint()..color = Colors.red;
-      canvas.drawCircle(center, 4, paint);
+      canvas.drawCircle(center, r, paint);
     }
   }
 

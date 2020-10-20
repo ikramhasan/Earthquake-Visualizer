@@ -88,7 +88,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-          Text('Author: Ikram Hasan'),
         ],
       ),
     );

@@ -47,26 +47,35 @@ class Painter extends CustomPainter {
       var mag = double.parse(earthquakes[4]);
 
       double opacity = 0.2;
-      double radius = 1;
+      double radius = 0.5;
       if (mag < 0) {
         opacity = 0.2;
       } else if (mag > 0 && mag < 1) {
         opacity = 0.3;
       } else if (mag > 1 && mag < 2) {
         opacity = 0.4;
-        radius = 2;
+        radius = 0.7;
       } else if (mag > 2 && mag < 3) {
         opacity = 0.5;
-        radius = 3;
+        radius = 1;
       } else if (mag > 3 && mag < 4) {
         opacity = 0.6;
-        radius = 3;
+        radius = 1.5;
       } else if (mag > 4 && mag < 5) {
         opacity = 0.7;
-        radius = 4;
-      } else if (mag > 5) {
+        radius = 1.7;
+      } else if (mag > 5 && mag < 6) {
         opacity = 0.8;
-        radius = 5;
+        radius = 2;
+      } else if (mag > 6 && mag < 7) {
+        opacity = 0.8;
+        radius = 2.5;
+      } else if (mag > 7 && mag < 8) {
+        opacity = 0.8;
+        radius = 2.7;
+      } else if (mag > 8) {
+        opacity = 0.8;
+        radius = 3;
       }
       mag = pow(10, mag);
       mag = sqrt(mag);
@@ -76,10 +85,11 @@ class Painter extends CustomPainter {
       var y = mercY(lat) - centerY;
       var d = ((mag - 0) / (magmax - 0)) * (180 - 0) + 0;
       var r = d.abs() / 2;
+      //print(r);
 
       var center = Offset(x, y);
       var paint = Paint()..color = Colors.red.withOpacity(opacity);
-      canvas.drawCircle(center, 1, paint);
+      canvas.drawCircle(center, radius, paint);
     }
   }
 

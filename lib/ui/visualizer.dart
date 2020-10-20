@@ -34,6 +34,8 @@ class Visualizer extends StatelessWidget {
     }
 
     return Container(
+      height: MapData.height,
+      width: MapData.width,
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.red,

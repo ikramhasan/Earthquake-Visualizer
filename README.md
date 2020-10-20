@@ -4,7 +4,7 @@ An earthquake visualizer made using Flutter and Dart ❤.
 
 ## Website
 
-To see the app in action, click [here](https://ikramhasan.github.io/Earthquake-Visualizer/#/)
+To see the app in action, click [here](https://earthquake-visualization.web.app/#/)
 
 ## App preview
 

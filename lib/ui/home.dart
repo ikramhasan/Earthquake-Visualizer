@@ -13,46 +13,48 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: RichText(
-              text: TextSpan(
-                text: "Earthquake Visualizer",
-                style: GoogleFonts.ubuntu(fontSize: 22, color: Colors.white),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: ' by Ikram Hasan',
-                    style: GoogleFonts.ubuntu(
-                      fontSize: 22,
-                      color: Colors.grey,
-                      fontStyle: FontStyle.italic,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: RichText(
+                text: TextSpan(
+                  text: "Earthquake Visualizer",
+                  style: GoogleFonts.ubuntu(fontSize: 22, color: Colors.white),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: ' by Ikram Hasan',
+                      style: GoogleFonts.ubuntu(
+                        fontSize: 22,
+                        color: Colors.grey,
+                        fontStyle: FontStyle.italic,
+                      ),
                     ),
+                  ],
+                ),
+              ),
+            ),
+            Center(
+              child: Stack(
+                //alignment: Alignment.center,
+                children: [
+                  Image(
+                    errorBuilder: (context, error, stackTrace) => Center(
+                      child: Text('Error Loading map.'),
+                    ),
+                    image: NetworkImage(MapData.url),
+                  ),
+                  Visualizer(
+                    earthquakeType: type,
                   ),
                 ],
               ),
             ),
-          ),
-          Center(
-            child: Stack(
-              //alignment: Alignment.center,
-              children: [
-                Image(
-                  errorBuilder: (context, error, stackTrace) => Center(
-                    child: Text('Error Loading map.'),
-                  ),
-                  image: NetworkImage(MapData.url),
-                ),
-                Visualizer(
-                  earthquakeType: type,
-                ),
-              ],
-            ),
-          ),
-          buttonRow(),
-        ],
+            buttonRow(),
+          ],
+        ),
       ),
     );
   }
@@ -63,9 +65,12 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(8.0),
         child: RaisedButton(
           color: Colors.red,
-          child: Text(
-            'All Day',
-            style: GoogleFonts.ubuntu(fontSize: 16),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'All Day',
+              style: GoogleFonts.ubuntu(fontSize: 16),
+            ),
           ),
           onPressed: () {
             setState(() {
@@ -78,9 +83,12 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(8.0),
         child: RaisedButton(
           color: Colors.red,
-          child: Text(
-            'All Week',
-            style: GoogleFonts.ubuntu(fontSize: 16),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'All Week',
+              style: GoogleFonts.ubuntu(fontSize: 16),
+            ),
           ),
           onPressed: () {
             setState(() {
@@ -93,9 +101,12 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(8.0),
         child: RaisedButton(
           color: Colors.red,
-          child: Text(
-            'All Month',
-            style: GoogleFonts.ubuntu(fontSize: 16),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'All Month',
+              style: GoogleFonts.ubuntu(fontSize: 16),
+            ),
           ),
           onPressed: () {
             setState(() {

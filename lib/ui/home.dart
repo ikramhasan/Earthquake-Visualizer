@@ -12,49 +12,69 @@ class _HomePageState extends State<HomePage> {
   EarthquakeType type = EarthquakeType.ALL_DAY;
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: RichText(
-                text: TextSpan(
-                  text: "Earthquake Visualizer",
-                  style: GoogleFonts.ubuntu(fontSize: 22, color: Colors.white),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: ' by Ikram Hasan',
-                      style: GoogleFonts.ubuntu(
-                        fontSize: 22,
-                        color: Colors.grey,
-                        fontStyle: FontStyle.italic,
+        child: width >= 1280
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: RichText(
+                      text: TextSpan(
+                        text: "Earthquake Visualizer",
+                        style: GoogleFonts.ubuntu(
+                            fontSize: 22, color: Colors.white),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: ' by Ikram Hasan',
+                            style: GoogleFonts.ubuntu(
+                              fontSize: 22,
+                              color: Colors.grey,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ],
                       ),
+                    ),
+                  ),
+                  Center(
+                    child: Stack(
+                      //alignment: Alignment.center,
+                      children: [
+                        Image(
+                          errorBuilder: (context, error, stackTrace) => Center(
+                            child: Text('Error Loading map.'),
+                          ),
+                          image: NetworkImage(MapData.url),
+                        ),
+                        Visualizer(
+                          earthquakeType: type,
+                        ),
+                      ],
+                    ),
+                  ),
+                  buttonRow(),
+                ],
+              )
+            : Center(
+                child: Column(
+                  children: [
+                    Text(
+                      'Sorry!!!',
+                      style:
+                          GoogleFonts.ubuntu(fontSize: 22, color: Colors.red),
+                    ),
+                    SizedBox(height: 30),
+                    Text(
+                      'You need a bigger screen (1280p or higher) to view this project.',
+                      style:
+                          GoogleFonts.ubuntu(fontSize: 16, color: Colors.red),
                     ),
                   ],
                 ),
               ),
-            ),
-            Center(
-              child: Stack(
-                //alignment: Alignment.center,
-                children: [
-                  Image(
-                    errorBuilder: (context, error, stackTrace) => Center(
-                      child: Text('Error Loading map.'),
-                    ),
-                    image: NetworkImage(MapData.url),
-                  ),
-                  Visualizer(
-                    earthquakeType: type,
-                  ),
-                ],
-              ),
-            ),
-            buttonRow(),
-          ],
-        ),
       ),
     );
   }
